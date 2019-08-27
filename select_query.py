@@ -203,12 +203,12 @@ def get_primary_id(table_name):
     table_id = table_name + '_id'
     return table_id
 
-#def test_get_sql_from_json():
-#	usecase1 = ""
-#	expected1 = ""
-#	response1 = get_sql_from_json(usecase1)
-#	if response1 != expected1:
-#		print ("Failed on usecase", usecase1, "expected", expected1, "response", response1)
+def test_get_sql_from_json():
+	usecase1 = ""
+	expected1 = ""
+	response1 = get_sql_from_json(usecase1)
+	if response1 != expected1:
+		print ("Failed on usecase", usecase1, "expected", expected1, "response", response1)
 
 
 def items_to_json(rows, attributes):
