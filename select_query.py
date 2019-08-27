@@ -200,6 +200,7 @@ def execute_sql_query(connection, sql_query):
 
 
 def get_primary_id(table_name):
+    # create table primary ids like table names
     table_id = table_name + '_id'
     return table_id
 
