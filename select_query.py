@@ -212,6 +212,10 @@ def get_primary_id(table_name):
 
 
 def items_to_json(rows, attributes):
+	"""
+	hardcoded formatter 
+	for response
+	"""
 	table_name_headers = { "person" : None, 
 				"company" : "works_at", 
 				"country" : "country_of_residence"
