@@ -271,7 +271,6 @@ def items_to_json(output_format,rows, attributes):
                 response[col] = value
     return response
 
-
 if __name__ == '__main__':
     import sys
 
