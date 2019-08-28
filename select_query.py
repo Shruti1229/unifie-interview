@@ -100,7 +100,7 @@ def create_query(condition_list, select_attributes):
 	Create three separate clauses
 	One each for SELECT, JOIN and WHERE
 	"""
-
+	
 	join_clauses = []
 	where_clauses = []
 	
@@ -174,6 +174,7 @@ def get_attributes_from_table(connection, json_list):
 	table_column_tuples = []
 	for i in json_list:
 		table = i[0]
+		connection = get_connection()
 		query = "SHOW columns FROM {}".format(table)
 		rows = execute_sql_query(connection, query)
 		
