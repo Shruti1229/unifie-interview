@@ -8,36 +8,37 @@ Program to retrieve elements from tables using json queries
 INPUT :
 
 {
-  "table": "enrolled",
-  "enrolled_by": {
-    "table": "student",
-    "major": "cs"
-  },
+  "table": "student",
   "enrolled_in": {
-    "table": "course",
-    "name": "",
-    taught_by: {
-      "table": "faculty",
-      fname: "ram"
+    "table": "enrolled",
+    "enrolled_course": {
+      "table": "course",
+      "course_name": "OS",
+      "taught_by": {
+        "table": "faculty",
+        "faculty_name": "ram"
+      }
     }
   }
 }
 
 OUTPUT : 
 {
-  'first_name': 'senthil',
-  'last_name': 'kumar',
-  'age': 30,
-  'company_id': 1,
-  'country_id': 5,
-  'works_at': {
-    'company_name': 'XYZ',
-    'sector': 'food',
-    'founded': 'datetime.date(2016, 7, 10)',
-    'country_id': 5
+  'student_name': 'xyz',
+  'major': 'CS',
+  'age': 18,
+  'enrolled_in': {
+    'course_id': 1
   },
-  'country_of_residence': {
-    'name': 'india'
+  'enrolled_course': {
+    'course_name': 'OS',
+    'faculty_id': 1,
+    'class_room_no': 201
+  },
+  'taught_by': {
+    'faculty_name': 'ram',
+    'salary': 10000,
+    'joining_date': datetime.date(2018,8,8)
   }
 }
 """
@@ -49,11 +50,11 @@ def main():
   "enrolled_in": {
     "table": "enrolled",
     "enrolled_course": {
-                    "table": "course",
-                    "course_name": "OS",
-                    "taught_by": {
-                                  "table": "faculty",
-                                  "faculty_name": "ram"
+      "table": "course",
+      "course_name": "OS",
+      "taught_by": {
+        "table": "faculty",
+        "faculty_name": "ram"
       }
     }
   }
@@ -69,7 +70,7 @@ def main():
     print(output_rows)
 
     json_outputs = items_to_json(output_format, output_rows, select_attributes)
-    #print(json_outputs)
+    print(json_outputs)
 
 
 def get_conditions_list(json):
