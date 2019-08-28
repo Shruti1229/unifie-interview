@@ -67,7 +67,6 @@ def main():
 
     sql_query = create_query(json_list, select_attributes)
     output_rows = execute_sql_query(connection, sql_query)
-    print(output_rows)
 
     json_outputs = items_to_json(output_format, output_rows, select_attributes)
     print(json_outputs)
@@ -84,11 +83,14 @@ def get_conditions_list(json):
     field_value = []
     values = []
     table_name = "NA"
-    output_format = []
-    for k, v in recursive_items(output_format,json):
+    key_words = []
+    name_table = []
+    key_words.append(None)
+    for k, v in recursive_items(key_words,json):
         t_n = table_name
         if k == "table":
             table_name = v
+            name_table.append(table_name)
             t = make_list(tab, t_n, field_value, values)
             field_value = []
             values = []
@@ -97,7 +99,9 @@ def get_conditions_list(json):
             values.append(v)
 
     t = make_list(tab, t_n, field_value, values)
-    print(output_format)
+    output_format = {}
+    for k,v in zip(name_table,key_words):
+        output_format[k] = v
     return output_format, t
 
 
@@ -150,7 +154,6 @@ def create_query(condition_list, select_attributes):
 
             if (len(where_clauses) == 0):
                 where_clause = "WHERE " + where_clause
-                print(where_clause)
             else:
                 where_clause = "AND " + where_clause
             where_clauses.append(where_clause)
@@ -173,15 +176,15 @@ def make_list(tab, table_name, field_value, values):
         tab.append([table_name, table_id, columns, val])
     return tab
 
-def recursive_items(output_format, dictionary):
+def recursive_items(key_words, dictionary):
     """
     Input : takes nested dictioanry
     Output: return keys and values
     """
     for key, value in dictionary.items():
         if type(value) is dict:
-            output_format.append(key)
-            yield from recursive_items(output_format, value)
+            key_words.append(key)
+            yield from recursive_items(key_words, value)
         else:
             yield (key, value)
 
@@ -251,13 +254,7 @@ def items_to_json(output_format,rows, attributes):
     """
     output formatter for response
     """
-    table_name_headers = {"student": None,
-                          "enrolled": "enrolled_in",
-                          "course" : "enrolled_course",
-                          "faculty" : "taught_by"
-                          }
-    print(output_format)
-
+    table_name_headers = output_format
     response = {}
     for row in rows:
         for elem in zip(attributes, row):
