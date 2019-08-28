@@ -5,6 +5,6 @@ Steps to run the code
          create database courses
 
 2) Copy the database in the database `courses` with following command :
-        mysql -u root -p db_name < courses.sql
+        mysql -u root -p courses < courses.sql
 
 3) Run the code => Select_query_courses.py
