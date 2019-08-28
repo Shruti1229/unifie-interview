@@ -49,18 +49,20 @@ def main():
 			"sector": "food",
 			"started_in": {
 				"table": "country",
-				"name": "india" 
+				"name": "india"
                           }
                     }
                  }
     
 	json_list = get_conditions_list(json_query)
-	
+	print(json_list)
 	connection = get_connection()
 	select_attributes = get_attributes_from_table(connection, json_list)
-	
+
 	sql_query = create_query(json_list, select_attributes)
+	print(sql_query)
 	output_rows = execute_sql_query(connection, sql_query)
+	print(output_rows)
 	
 	json_outputs = items_to_json(output_rows, select_attributes)
 	print (json_outputs)	
@@ -89,6 +91,7 @@ def get_conditions_list(json):
 			values.append(v)
 
 	t = make_list(tab, t_n, field_value, values)
+	print(t)
 	return t
 
 				
@@ -97,7 +100,7 @@ def create_query(condition_list, select_attributes):
 	Create three separate clauses
 	One each for SELECT, JOIN and WHERE
 	"""
-	selected_columns = []
+
 	join_clauses = []
 	where_clauses = []
 	
@@ -171,7 +174,6 @@ def get_attributes_from_table(connection, json_list):
 	table_column_tuples = []
 	for i in json_list:
 		table = i[0]
-		connection = get_connection()
 		query = "SHOW columns FROM {}".format(table)
 		rows = execute_sql_query(connection, query)
 		
@@ -226,13 +228,19 @@ def items_to_json(rows, attributes):
 		for elem in zip(attributes, row):
 			table, col, value = elem[0][0], elem[0][1], elem[1]
 			header = table_name_headers.get(table, None)
+			print(header)
 			if header:
 				response[header] = response.get(header, {})
 				response[header][col] = value
 			else:
 				response[col] = value
+	print(response)
 	return response
 			
 
 if __name__ == '__main__':
-	main()
+	import sys
+	if len(sys.argv) > 1 and sys.argv[1] == 'test':
+		run_tests()
+	else:
+		main()
